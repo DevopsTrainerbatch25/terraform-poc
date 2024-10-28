@@ -1,0 +1,9 @@
+project_id="seventh-chassis-435803-p0"
+vmregion="us-west1"
+vmname="test-vm"
+vmmachine_type="e2-micro"
+vmzone="us-west1-a"
+vmtags=["http-server"]
+fwname="default-allow-http-terraform"
+fwprotocol="tcp"
+fwports=["80","8080"]
