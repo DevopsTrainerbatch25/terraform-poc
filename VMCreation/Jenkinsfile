@@ -1,0 +1,50 @@
+pipeline{
+    agent any
+    environment{
+        GOOGLE_APPLICATION_CREDENTIALS = credentials('gcp-sa-key')
+    }
+    stages{
+        stage('Git checkout'){
+            steps{
+                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: '83fc3807-f1e6-4f39-b0c8-776354d319c4', url: 'https://github.com/DevopsTrainerbatch25/terraform-poc.git']])
+            }
+        }
+        stage('Terraform init'){
+            steps{
+                dir('/var/lib/jenkins/workspace/terraform-poc/VMCreation'){
+                    sh 'terraform init'
+                    }
+            }
+        }
+        stage('Terraform Validate'){
+            steps{
+                dir('/var/lib/jenkins/workspace/terraform-poc/VMCreation'){
+                    sh 'terraform validate'
+                }
+            }
+        }
+        stage('Terraform Plan'){
+            steps{
+                dir('/var/lib/jenkins/workspace/terraform-poc/VMCreation'){
+                    sh 'terraform plan'
+                }
+            }
+        }
+        stage('Terraform Apply'){
+            steps{
+                dir('/var/lib/jenkins/workspace/terraform-poc/VMCreation'){
+                    sh 'terraform apply --auto-approve'
+                }
+                
+            }
+        }
+        stage('Terraform Destroy'){
+            steps{
+                dir('/var/lib/jenkins/workspace/terraform-poc/VMCreation'){
+                    sh 'terraform destroy --auto-approve'
+                }
+                
+            }
+        }
+    }
+}
